@@ -1,0 +1,90 @@
+name: Fork release
+
+# The fork's own release: every push to integration builds Fluidd with
+# upstream's reusable workflow and publishes fluidd.zip as a GitHub release
+# that the homelab repository pins for fluiddpi. The tag carries no leading v,
+# so upstream's release.yml (tags v*) never matches it. The zip's
+# release_info.json names the tag as its version, which is what the pull on
+# fluiddpi compares its pin against.
+
+on:
+  push:
+    branches:
+      - integration
+  workflow_dispatch:
+
+concurrency:
+  group: fork-release-${{ github.ref }}
+
+permissions: {}
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/_build.yml
+    permissions:
+      contents: read
+
+  release:
+    name: Release
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Download fluidd dist
+        uses: actions/download-artifact@v8
+        with:
+          name: fluidd-${{ github.sha }}
+          path: ./dist
+
+      - name: Name the release after the upstream version and the run
+        id: tag
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          version=$(jq -r .version package.json)
+          echo "tag=${version}-tubbles.${RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+
+      - name: Write the release name into the dist
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          jq --arg version "$TAG" --arg owner "$OWNER" \
+            '.version = $version | .project_owner = $owner' \
+            dist/release_info.json > release_info.json
+          mv release_info.json dist/release_info.json
+          printf '%s' "$TAG" > dist/.version
+
+      - name: Create Artifact
+        run: |
+          cd ./dist
+          zip -r ../fluidd.zip ./
+          cd ..
+          sha256sum fluidd.zip > fluidd.zip.sha256
+
+      - name: Create Release
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: ${{ steps.tag.outputs.tag }}
+          body: |
+            Fluidd ${{ steps.tag.outputs.tag }}: upstream develop plus the fork's feature branches, built from ${{ github.sha }}.
+          files: |
+            ./fluidd.zip
+            ./fluidd.zip.sha256
+          draft: false
+          prerelease: false
