@@ -16,6 +16,7 @@ import type { mesh } from './mesh'
 import type { notifications } from './notifications'
 import type { announcements } from './announcements'
 import type { extensions } from './extensions'
+import type { autoslice } from './autoslice'
 import type { auth } from './auth'
 import type { timelapse } from './timelapse'
 import type { wait } from './wait'
@@ -50,6 +51,7 @@ type RootModulesType = {
   notifications: typeof notifications,
   announcements: typeof announcements,
   extensions: typeof extensions,
+  autoslice: typeof autoslice,
   wait: typeof wait,
   gcodePreview: typeof gcodePreview,
   timelapse: typeof timelapse,

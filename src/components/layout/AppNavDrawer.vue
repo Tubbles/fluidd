@@ -61,6 +61,14 @@
           </app-nav-item>
 
           <app-nav-item
+            v-if="supportsAutoslice"
+            icon="$github"
+            to="github"
+          >
+            {{ $t('app.general.title.github') }}
+          </app-nav-item>
+
+          <app-nav-item
             v-if="supportsHistory"
             icon="$history"
             to="history"
@@ -163,6 +171,10 @@ export default class AppNavDrawer extends Mixins(StateMixin, BrowserMixin) {
 
   get supportsTimelapse (): boolean {
     return this.$typedGetters['server/componentSupport']('timelapse')
+  }
+
+  get supportsAutoslice (): boolean {
+    return this.$typedState.autoslice.connected
   }
 
   get enableDiagnostics (): boolean {
