@@ -901,6 +901,121 @@ export const SocketActions = {
     )
   },
 
+  autosliceProjects (options?: RequestOptions) {
+    return SocketActions.serverExtensionsRequest<Autoslice.Project[]>(
+      {
+        agent: 'autoslice',
+        method: 'autoslice.projects',
+        arguments: {}
+      },
+      {
+        wait: Waits.onAutosliceProjects,
+        suppressError: true,
+        ...options
+      }
+    )
+  },
+
+  autosliceModels (artifactId: number, options?: RequestOptions) {
+    return SocketActions.serverExtensionsRequest<Autoslice.Model[]>(
+      {
+        agent: 'autoslice',
+        method: 'autoslice.models',
+        arguments: {
+          artifact_id: artifactId
+        }
+      },
+      {
+        wait: Waits.onAutosliceModels,
+        suppressError: true,
+        ...options
+      }
+    )
+  },
+
+  autosliceThumbnail (artifactId: number, model: string, options?: RequestOptions) {
+    return SocketActions.serverExtensionsRequest<Autoslice.ThumbnailResponse>(
+      {
+        agent: 'autoslice',
+        method: 'autoslice.thumbnail',
+        arguments: {
+          artifact_id: artifactId,
+          model
+        }
+      },
+      {
+        suppressError: true,
+        ...options
+      }
+    )
+  },
+
+  autosliceOptions (artifactId: number, options?: RequestOptions) {
+    return SocketActions.serverExtensionsRequest<Autoslice.OptionsResponse>(
+      {
+        agent: 'autoslice',
+        method: 'autoslice.options',
+        arguments: {
+          artifact_id: artifactId
+        }
+      },
+      {
+        wait: Waits.onAutosliceOptions,
+        suppressError: true,
+        ...options
+      }
+    )
+  },
+
+  autosliceSliced (artifactId: number, model: string, options?: RequestOptions) {
+    return SocketActions.serverExtensionsRequest<Autoslice.Result[]>(
+      {
+        agent: 'autoslice',
+        method: 'autoslice.sliced',
+        arguments: {
+          artifact_id: artifactId,
+          model
+        }
+      },
+      {
+        wait: Waits.onAutosliceSliced,
+        suppressError: true,
+        ...options
+      }
+    )
+  },
+
+  autosliceSlice (args: Autoslice.SliceArguments, options?: RequestOptions) {
+    return SocketActions.serverExtensionsRequest<Autoslice.Job>(
+      {
+        agent: 'autoslice',
+        method: 'autoslice.slice',
+        arguments: args
+      },
+      {
+        wait: Waits.onAutosliceSlice,
+        suppressError: true,
+        ...options
+      }
+    )
+  },
+
+  autosliceJob (id: string, options?: RequestOptions) {
+    return SocketActions.serverExtensionsRequest<Autoslice.Job>(
+      {
+        agent: 'autoslice',
+        method: 'autoslice.jobs',
+        arguments: {
+          id
+        }
+      },
+      {
+        suppressError: true,
+        ...options
+      }
+    )
+  },
+
   serverWebcamsList (options?: RequestOptions) {
     return baseEmit(
       'server.webcams.list', {

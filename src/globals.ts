@@ -206,6 +206,7 @@ import {
   mdiDockTop,
   mdiDockBottom,
   mdiTagMultipleOutline,
+  mdiGithub,
 } from '@mdi/js'
 
 import {
@@ -283,7 +284,9 @@ export const Globals = Object.freeze({
     sensors: { name: 'sensor', dispatch: 'sensors/init' },
     extensions: { name: 'extensions', dispatch: 'extensions/init' }
   },
-  MOONRAKER_AGENTS: {},
+  MOONRAKER_AGENTS: {
+    autoslice: { name: 'autoslice', eventDispatch: 'autoslice/onAgentEvent' }
+  },
   // Ordered by weight.
   CONFIG_SERVICE_MAP: [
     { filename: 'moonraker.conf', service: 'moonraker', link: 'https://moonraker.readthedocs.io/en/latest/configuration/' },
@@ -458,6 +461,7 @@ export const Icons = Object.freeze({
   history: mdiHistory,
   filter: mdiFilterOutline,
   commit: mdiSourceCommit,
+  github: mdiGithub,
   cloudCheck: mdiCloudCheck,
   cloudAlert: mdiCloudAlert,
   cubeScan: mdiCubeScan,
@@ -651,6 +655,11 @@ export const Waits = Object.freeze({
   onQueryEndstops: 'onQueryEndstops',
   onQueryProbe: 'onQueryProbe',
   onVersionRefresh: 'onVersionRefresh',
+  onAutosliceProjects: 'onAutosliceProjects',
+  onAutosliceModels: 'onAutosliceModels',
+  onAutosliceOptions: 'onAutosliceOptions',
+  onAutosliceSliced: 'onAutosliceSliced',
+  onAutosliceSlice: 'onAutosliceSlice',
   onSyncExtruder: 'onSyncExtruder',
   onStepperEnable: 'onStepperEnable',
   onMachinePeripheralsUsb: 'onMachinePeripheralsUsb',

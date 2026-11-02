@@ -18,7 +18,8 @@ const MODULES_TO_RESET_ON_DROP = [
   'jobQueue',
   'wait',
   'gcodePreview',
-  'extensions'
+  'extensions',
+  'autoslice'
 ] as const
 
 let retryTimeout: ReturnType<typeof setTimeout>

@@ -21,6 +21,7 @@ import { mesh } from './mesh'
 import { notifications } from './notifications'
 import { announcements } from './announcements'
 import { extensions } from './extensions'
+import { autoslice } from './autoslice'
 import { wait } from './wait'
 import { gcodePreview } from './gcodePreview'
 import { timelapse } from './timelapse'
@@ -55,6 +56,7 @@ export const storeOptions = {
     notifications,
     announcements,
     extensions,
+    autoslice,
     wait,
     gcodePreview,
     timelapse,

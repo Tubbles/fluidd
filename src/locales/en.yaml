@@ -118,6 +118,24 @@ app:
     WeightRemaining: "{weight} g remaining"
     WeightSubtitle: "The weight of the filament in grams (without spool)."
     WeightUsed: "{weight} g used"
+  autoslice:
+    btn:
+      back: Back
+      slice: Slice
+      slice_again: Slice again
+      slice_another: Slice another
+    label:
+      no_models: No models
+      no_projects: No projects
+      rules: Rules
+    msg:
+      not_connected: Slicer not connected
+    status:
+      error: Slicing failed
+      queued: Queued
+      ready: Ready to print
+      slicing: Slicing
+      waiting_for_file: Waiting for the file to reach the printer
   bedmesh:
     label:
       active: active
@@ -666,6 +684,7 @@ app:
       endstops: Endstops
       fans_outputs: Fans & Outputs
       gcode_preview: Gcode Preview
+      github: GitHub
       history: History
       home: Home
       jobs: Jobs

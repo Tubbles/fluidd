@@ -34,6 +34,12 @@ const routes: Array<RouteConfig> = [
     ...defaultRouteConfig
   },
   {
+    path: '/github',
+    name: 'github',
+    component: () => import('@/views/Github.vue'),
+    ...defaultRouteConfig
+  },
+  {
     path: '/tune',
     name: 'tune',
     component: () => import('@/views/Tune.vue'),
